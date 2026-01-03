@@ -28,7 +28,7 @@ const clerk = clerkMiddleware(async (auth, req) => {
   }
 });
 
-export default createMiddleware(aj,clerk);
+export default createMiddleware(aj,clerk)
 
 export const config = {
   matcher: [
