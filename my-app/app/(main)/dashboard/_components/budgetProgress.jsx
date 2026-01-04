@@ -3,7 +3,6 @@ import { updateBudget as updateBudgetAction } from "@/actions/budget";
 import { Button } from "@/components/ui/button";
 import {
   Card,
-  CardAction,
   CardContent,
   CardDescription,
   CardHeader,
@@ -13,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
 import useFetch from "@/hooks/useFetch";
 import { Check, Pencil, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 const BudgetProgress = ({ initalBudget, currentExpenses }) => {
@@ -62,12 +61,14 @@ const BudgetProgress = ({ initalBudget, currentExpenses }) => {
     setIsEditing(false);
   };
 
-    const progressColor =
-    percentUsed >= 90
-      ? "bg-red-500"
-      : percentUsed >= 75
-      ? "bg-yellow-500"
-      : "bg-green-500";
+   const progressColor =
+  percentUsed >= 90
+    ? "[&>div]:bg-red-500"
+    : percentUsed >= 75
+    ? "[&>div]:bg-yellow-500"
+    : "[&>div]:bg-green-500";
+
+// Then use: <Progress value={percentUsed} className={progressColor} />
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -124,18 +125,24 @@ const BudgetProgress = ({ initalBudget, currentExpenses }) => {
           </div>
         </div>
       </CardHeader>
-      <CardContent>
-         {initalBudget&& 
-         <div className="space-y-2">
-            <Progress 
-            value={percentUsed}
-            extraStyle={`${progressColor}`}
-            />
-            <p className="text-xs text-muted-foreground text-right">
-              {percentUsed.toFixed(1)}% used
-            </p>
-            </div>}
-      </CardContent>
+    <CardContent>
+  {initalBudget && (
+    <div className="space-y-2">
+      <Progress 
+        value={percentUsed} 
+        className={progressColor} // Since progressColor already has the prefix
+      />
+      <p className="text-xs text-muted-foreground text-right">
+        {percentUsed.toFixed(1)}% used
+      </p>
+      {percentUsed >= 100 && (
+        <p className="text-[10px] text-red-500 font-medium text-right">
+          Budget exceeded!
+        </p>
+      )}
+    </div>
+  )}
+</CardContent>
     </Card>
   );
 };
