@@ -59,15 +59,15 @@ const AddTransactionForm = ({
             category: initialData.category,
             date: new Date(initialData.date),
             isRecurring: initialData.isRecurring,
-            ...(initialData.RecurringInterval && {
-              RecurringInterval: initialData.RecurringInterval,
+            ...(initialData.recurringInterval && {
+              recurringInterval: initialData.recurringInterval,
             }),
           }
         : {
             type: "EXPENSE",
             amount: "",
             description: "",
-            accountId: account.find((ac) => ac.defaultValues)?.id,
+            accountId: account.find((ac) => ac.isDefault)?.id,
             date: new Date(),
             isRecurring: false,
           },
@@ -159,11 +159,11 @@ const AddTransactionForm = ({
           />
 
           {errors.amount && (
-            <p className="text-sm text-red-500">{errors.type.message}</p>
+            <p className="text-sm text-red-500">{errors.amount.message}</p>
           )}
         </div>
         <div className="space-y-2">
-          <label className="text-sm font-medium">Type</label>
+          <label className="text-sm font-medium">Account Type</label>
           <Select
             onValueChange={(value) => setValue("accountId", value)}
             defaultValue={getValues("accountId")}
@@ -288,9 +288,9 @@ const AddTransactionForm = ({
             </SelectContent>
           </Select>
 
-          {errors.RecurringInterval && (
+          {errors.recurringInterval && (
             <p className="text-sm text-red-500">
-              {errors.RecurringInterval.message}
+              {errors.recurringInterval.message}
             </p>
           )}
         </div>

@@ -5,8 +5,8 @@ import { getTransaction } from "@/actions/transaction";
 
 const AdTransactionPage = async ({ searchParams }) => {
   const accounts = await getUserAccounts();
-  const params = await searchParams;
-  const editId = params?.edit;
+
+  const editId = searchParams?.edit ?? null;
 
   let initialData = null;
   if (editId) {
@@ -28,5 +28,4 @@ const AdTransactionPage = async ({ searchParams }) => {
     </div>
   );
 };
-
 export default AdTransactionPage;
